@@ -98,6 +98,7 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/topojson.v2.min.js"></script>
     <script>
+        //Get default year 
         var countries = [];
         var filteredMovies = [];
         var year = window.localStorage.getItem("year");
@@ -108,6 +109,7 @@
         var startDate = 2005;
         var lastDate = year;
 
+        //Find elements
         var tooltip = d3.select("div.tooltip");
         var btnStart = document.getElementById("btnStart"),
             add;
@@ -121,6 +123,7 @@
         var bestMetascore = document.getElementById("metascore");
         var bestRTscore = document.getElementById("rtscore");
 
+        //Color scale
         var colors = d3.scaleQuantize()
             .domain([0, 6])
             .range(["#FFDFAE", "#FDB950", "#FEA720"]);
@@ -133,9 +136,11 @@
             .scale(150)
             .translate([width / 2, height / 2]);
 
+        //Add zoom to countries
         var zoom = d3.zoom().on("zoom", zoomed);
         var path = d3.geoPath().projection(projection);
 
+        //Create SVG element
         var svg = d3.select("#map").append("svg")
             .attr("width", width + 30)
             .attr("height", height)
@@ -149,8 +154,10 @@
         var g = svg.append("g");
         svg.call(zoom);
 
+        //Filter movies for selected year
         filterByYear(year);
 
+        //Add title
         var countryNameHeader = document.getElementById("country_name");
         countryNameHeader.innerText = "Year - " + year;
 
@@ -161,6 +168,7 @@
             active.classed("active", false);
             active = d3.select(this).classed("active", true);
 
+            //Set information about selected country
             var name = countries.find(x => x.id == d.id).name;
             countryNameHeader.innerText = "Country - " + name + "(" + year + ")";
             name.innerText = "Movie industry info in " + name;
@@ -195,6 +203,7 @@
             bestMetascore.innerText = "Best Metascore: " + metaScore;
             bestRTscore.innerText = "Best RTscore: " + rtScore;
 
+            //Zoom selected country
             var bounds = path.bounds(d),
                 dx = bounds[1][0] - bounds[0][0],
                 dy = bounds[1][1] - bounds[0][1],
@@ -218,6 +227,7 @@
         }
 
         function filterByYear(newYear) {
+            //Filter movies from json for selected Year
             d3.json("movies.json", function(error, dataset) {
                 filteredMovies = dataset.filter(x => x.Year == newYear);
 
@@ -247,6 +257,7 @@
         }
 
         function loadMap(year) {
+            //Load Topojson Map
             d3.json("country_names.json", function(error, data) {
                 countries = data;
 
@@ -286,6 +297,7 @@
             });
         }
 
+        //Timer for animation
         function startTimer() {
             btnStart.disabled = true;
             btnStop.disabled = false;
@@ -312,13 +324,13 @@
             filterByYear(newYear)
         }
 
+        //Go to Index page
         function goToComparision() {
             window.location = "index.php"
         }
 
         function zoomed() {
             g.style("stroke-width", 1.5 / d3.event.transform.k + "px");
-            // g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")"); // not in d3 v4
             g.attr("transform", d3.event.transform); // updated for d3 v4
         }
 

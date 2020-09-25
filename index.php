@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Directors</title>
+    <title>Movie Director Ratings</title>
     <link rel="stylesheet" type="text/css" href="style/index.css" media="screen" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="shortcut icon" href="images/main.png">
@@ -65,7 +65,7 @@
     </div>
 
     <script>
-        // set the dimensions and margins of the graph
+        // Set margins and size of SVG
         var margin = {
                 top: 40,
                 right: 200,
@@ -82,6 +82,8 @@
         var movies2 = [];
         var chosenCountries = [];
         var chosenScore = "IMdb_score"
+
+        //Get elements from selected ID
         var countryName = document.getElementById("country");
         var numOfMovies = document.getElementById("movies");
         var numOfDirectors = document.getElementById("directors");
@@ -89,11 +91,13 @@
         var bestMetascore = document.getElementById("metascore");
         var bestRTscore = document.getElementById("rtscore");
 
+        //Parse date to given format
         var parseDate = d3.timeParse("%Y-%m-%d");
 
         var x = d3.scaleTime().range([0, width]);
         var y = d3.scaleLinear().range([height, 0]);
 
+        //Create a line
         var line = d3.line()
             .x(function(d) {
                 return x(d.Released);
@@ -102,21 +106,24 @@
                 return y(parseInt(d[chosenScore]));
             });
 
+        //Create SVG form
         var svg = d3.select(".column1").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+        //Access movies JSON
         d3.json("movies.json", function(error, dataset) {
 
-
+            //Filtering movies between 2004 and 2016
             movies = dataset.filter(function(item) {
                 return parseInt(item.Year) > 2004 && parseInt(item.Year) < 2016;
             });
 
             var allCountries = [];
 
+            //Extract unique country names
             dataset.map(function(item) {
                 let items = item.Country.split(',')
                 if (items.length > 1) {
@@ -133,6 +140,7 @@
 
             })
 
+            //Add select options for Country 1 and Country2
             var countries1 = document.getElementById('country1');
             var countries2 = document.getElementById('country2');
             allCountries.sort((a, b) => a.localeCompare(b))
@@ -146,6 +154,8 @@
                 countries1.appendChild(opt1);
                 countries2.appendChild(opt2);
             });
+
+            //Months array used to find index from given word which will represent selected month
             var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
             movies.forEach(function(d) {
@@ -171,7 +181,8 @@
 
             const xAxisGrid = d3.axisBottom(x).tickSize(-height).tickFormat('').ticks(10);
             const yAxisGrid = d3.axisLeft(y).tickSize(-width).tickFormat('').ticks(10);
-            // Create grids.
+
+            // Create grids
             svg.append('g')
                 .attr('class', 'x axis-grid')
                 .attr('transform', 'translate(0,' + height + ')')
@@ -180,7 +191,7 @@
                 .attr('class', 'y axis-grid')
                 .call(yAxisGrid);
 
-            // Add the X Axis
+            //Add X Axis
             svg.append("g")
                 .attr("transform", "translate(0," + height + ")")
                 .call(d3.axisBottom(x));
@@ -189,6 +200,7 @@
             svg.append("g")
                 .call(d3.axisLeft(y));
 
+            // Add X and Y Axis names
             svg.selectAll("mydots")
                 .data([chosenScore])
                 .enter()
@@ -237,15 +249,18 @@
                 }
             })
 
+            //Update graph
             d3.selectAll("path.line").remove()
             d3.selectAll("mydots").remove()
             d3.selectAll("text").remove()
 
             var numbers = [Math.random() * 10, Math.random() * 10]
 
-
+            //Colorscale
             var color = d3.scaleOrdinal(d3.schemeCategory10);
+
             var size = 20
+            //Add legend dots and text
             var legend = svg.selectAll("mydots")
                 .data(chosenCountries)
                 .enter()
@@ -294,7 +309,7 @@
                     return d;
                 })
 
-            // Add the valueline path.
+            // Add the valueline path
             svg.append("path")
                 .data([movies1])
                 .attr("class", "line")
@@ -303,7 +318,7 @@
                 })
                 .attr("d", line);
 
-            // Add the valueline path.
+            // Add the valueline path
             svg.append("path")
                 .data([movies2])
                 .attr("class", "line")
@@ -324,11 +339,13 @@
         }
 
         function checkMovies() {
+            //Get elements
             let countries1 = document.getElementById('country1');
             let countries2 = document.getElementById('country2');
             let score = document.getElementById('score');
             chosenCountries = [];
 
+            //Filter countries from selected options and create Graph Title
             chosenScore = score.options[score.selectedIndex].value;
             let title = "";
             if (!countries1.options[countries1.selectedIndex].value.includes("Country 1")) {
@@ -360,6 +377,7 @@
                     title += (" vs " + countries2.options[countries2.selectedIndex].value + " by " + chosenScore)
                 } else title += (countries2.options[countries2.selectedIndex].value + " by " + chosenScore);
             }
+            //Set graph title
             let graphTitle = document.getElementById('graphTitle');
             graphTitle.innerHTML = title;
             drawGraph()
@@ -393,6 +411,7 @@
             bestRTscore.innerText = "Best RTscore: " + rt1 + " vs " + rt2;
         }
 
+        //Get score depending on given information
         function getScore(movies, number) {
             if (number == 1) {
                 if (movies.length > 0) {
