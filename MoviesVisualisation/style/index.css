@@ -1,0 +1,137 @@
+.info {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.select2-container .select2-selection--single {
+  height: 34px !important;
+}
+.select2-container--default .select2-selection--single {
+  border: 1px solid #ccc !important;
+  border-radius: 0px !important;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.7px;
+}
+
+.background {
+  fill: none;
+  pointer-events: all;
+}
+.tick{
+  stroke-width: 0.4;
+}
+
+.column1 {
+  margin-left: 100px;
+  width: 50%;
+  height: max-content;
+  align-items: center;
+}
+
+.column2 {
+  margin-top: 20px;
+  width: 40%;
+  align-items: center;
+}
+.grid .tick {
+  stroke: lightgrey;
+  opacity: 0.7;
+}
+.grid path {
+    stroke-width: 0;
+}
+@media screen and (max-width: 1500px) {
+  .column1, .column2{
+    margin-left: 10px;
+    width: 100%;
+  }
+ #graphTitle{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+   width: 100%!important;
+ }
+}
+
+h3 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  width: 100%;
+  text-align:center
+}
+
+.feature {
+  cursor: pointer;
+}
+
+.feature.active {
+  fill: #fea720 !important;
+}
+
+.feature:hover {
+  fill: #ecbe7b !important;
+}
+
+#btnReset {
+  margin-bottom: 10px;
+}
+
+.mesh {
+  fill: none;
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+
+#colorGradient {
+  margin: 20px auto;
+  width: 50px;
+  height: 400px;
+  background: linear-gradient(to top, #ffdfae 0%, #fdb950 50%, #fea720 100%);
+}
+
+.moviesinfo {
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+}
